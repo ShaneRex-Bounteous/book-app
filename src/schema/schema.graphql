@@ -1,0 +1,89 @@
+scalar BigInt
+
+type User {
+    id: ID!
+    email: String!
+    password: String!
+}
+
+type Book {
+    id: ID!
+    title: String!
+    published_year: Int!
+    description: String
+    genre: String!
+    isbn: BigInt!
+    rating: Int!
+    author: Author!
+} 
+
+type Author {
+    id: ID!
+    first_name: String!
+    last_name: String!
+    biography: String
+    birth_year: Int!
+    death_year: Int
+    nationality: String!,
+    books: [Book!]!
+}
+
+input CreateBookInput {
+    title: String!
+    published_year: Int!
+    description: String
+    genre: String!
+    isbn: String!
+    rating: Int!
+    author_id: ID!
+}
+
+input UpdateBookInput {
+    title: String
+    published_year: Int
+    description: String
+    genre: String
+    isbn: String
+    rating: Int
+}
+
+input CreateAuthorInput {
+    first_name: String!
+    last_name: String!
+    biography: String
+    birth_year: Int!
+    death_year: Int
+    nationality: String!
+}
+
+input UpdateAuthorInput {
+    first_name: String
+    last_name: String
+    biography: String
+    birth_year: Int
+    death_year: Int
+    nationality: String
+}
+
+input UserInput {
+    email: String!
+    password: String!
+}
+
+type Query {
+    allBooks: [Book!]!
+    bookById(id: ID!): Book!
+    allAuthors: [Author!]!
+    authorById(id: ID!): Author!
+}
+
+type Mutation {
+    createAuthor(data: CreateAuthorInput!): Author!
+    deleteAuthor(id: ID!): Author!
+    updateAuthor(id: ID!, data: UpdateAuthorInput!): Author!
+    createBook(data: CreateBookInput!): Book!
+    deleteBook(id: ID!): Book!
+    updateBook(id: ID!, data: UpdateBookInput!): Book!
+    login(data: UserInput): User!
+    signup(data: UserInput): User!
+}
