@@ -49,10 +49,11 @@ const { default: BigInt } = require('apollo-type-bigint');
     console.log('Database synced successful');
 
     app.use('/graphql', bodyParser.json(), cors(), expressMiddleware(server, {
-        context: () => {
+        context: ({ req }) => {
             return {
                 sequelize,
-                models
+                models,
+                req
             }
         }
     }));

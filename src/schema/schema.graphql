@@ -4,6 +4,7 @@ type User {
     id: ID!
     email: String!
     password: String!
+    role: UserRole!
 }
 
 type Book {
@@ -65,9 +66,30 @@ input UpdateAuthorInput {
     nationality: String
 }
 
-input UserInput {
+input CreateUserInput {
     email: String!
+    password: String!,
+    role: UserRole!
+}
+
+input LoginUserInput {
+    email: String!,
     password: String!
+}
+
+type AuthUser {
+    email: String!
+    role: String!
+}
+
+type AuthResponse {
+    user: AuthUser!
+    token: String!
+}
+
+enum UserRole {
+    admin
+    viewer
 }
 
 type Query {
@@ -84,6 +106,6 @@ type Mutation {
     createBook(data: CreateBookInput!): Book!
     deleteBook(id: ID!): Book!
     updateBook(id: ID!, data: UpdateBookInput!): Book!
-    login(data: UserInput): User!
-    signup(data: UserInput): User!
+    login(data: LoginUserInput!): AuthResponse!
+    signup(data: CreateUserInput!): AuthResponse!
 }

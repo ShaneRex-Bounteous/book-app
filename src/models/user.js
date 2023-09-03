@@ -1,6 +1,7 @@
 const Sequelize = require('sequelize');
-module.exports = function(sequelize, DataTypes) {
-  return sequelize.define('user', {
+const { hashPassword } = require('../utils/PasswordUtils')
+module.exports = function (sequelize, DataTypes) {
+  const User = sequelize.define('user', {
     id: {
       autoIncrement: true,
       autoIncrementIdentity: true,
@@ -18,6 +19,10 @@ module.exports = function(sequelize, DataTypes) {
     },
     password: {
       type: DataTypes.STRING(60),
+      allowNull: false
+    },
+    role: {
+      type: DataTypes.STRING(10),
       allowNull: false
     }
   }, {
@@ -40,6 +45,13 @@ module.exports = function(sequelize, DataTypes) {
           { name: "id" },
         ]
       },
-    ]
+    ],
+    hooks: {
+      beforeCreate: async (user) => {
+        user.password = await hashPassword(user.password)
+      }
+    }
   });
+
+  return User
 };
