@@ -93,9 +93,9 @@ enum UserRole {
 }
 
 type Query {
-    allBooks: [Book!]!
+    allBooks(offset: Int, limit: Int, after: Int): [Book!]!
     bookById(id: ID!): Book!
-    allAuthors: [Author!]!
+    allAuthors(offset: Int, limit: Int, after: Int): [Author!]!
     authorById(id: ID!): Author!
 }
 
